@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Provider } from 'react-redux';
 
 export default class Output extends Component {
     render(){
@@ -9,3 +10,4 @@ export default class Output extends Component {
         );
     }
 }
+

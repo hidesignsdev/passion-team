@@ -1,11 +1,24 @@
 import React, { Component} from "react";
-export default class KeyPad extends Component {
-    buttonPressed = e => {
-        this.props.buttonPressed(e.target.name);
-    };
+import { connect }  from 'react-redux';
+import Output from "./Output";
+
+class KeyPad extends Component {
+    buttonPressed = (e) => {
+        if (e.target.name === '=') {
+          this.props.dispatch({ type: 'CALCULATE'});
+        }else if(e.target.name === 'C') {
+          this.props.dispatch({ type: 'ERASE'});
+        }else if(e.target.name === 'CE') {
+          this.props.dispatch({ type: 'BACKSPACE'});
+        }else {
+          this.props.dispatch({ type: e.target.name});
+        }
+      }
+
     render() {
         return(
             <div className="buttons">
+                <Output result={this.props.result}/>
                 <button name='C'onClick={this.buttonPressed}>C</button>
                 <button name='CE'onClick={this.buttonPressed}>CE</button>
                 <button name='/'onClick={this.buttonPressed}>/</button>
@@ -28,3 +41,11 @@ export default class KeyPad extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return{
+        result: state.result
+    };
+}
+
+export default connect(mapStateToProps)(KeyPad);
