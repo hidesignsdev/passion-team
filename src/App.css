@@ -1,0 +1,60 @@
+#root{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.calculator {
+  border: 2px solid gray;
+  padding: 5px;
+  background: black;
+  width: 320px;
+  position: relative;
+}
+
+.outputScreen {
+  font-size: 29px;
+  color: white;
+  text-align: right;
+  line-height: 35px;
+}
+
+.formulaScreen {
+  min-height: 20px;
+  font-size: 20px;
+  color: orange;
+  text-align: right;
+  vertical-align: text-top;
+  line-height: 20px;
+  overflow: break-word;
+}
+
+button {
+  position: relative;
+  height: 65px;
+  width: 80px;
+  color: white;
+  outline: 1px solid black;
+  background: #4d4d4d;
+  font-size: 20px;
+}
+
+button:hover {
+  color: black;
+  outline: .05em solid grey;
+  z-index: 3;
+}
+
+#clear {
+  width: 160px;
+}
+
+#zero{
+  width: 160px;
+}
+
+#equals {
+  position: absolute;
+  height: 130px;
+  bottom: 5px;
+}
