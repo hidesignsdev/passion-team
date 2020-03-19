@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { CLEAR, EVALUATED, DECIMAL_INPUT, NUMBER_INPUT, OPERATOR_INPUT } from "../types";
 
 const initialState = {
@@ -9,122 +10,132 @@ const initialState = {
 
 const isOperator = /[*/+-]/,
     endWithOperator = /([*/+-])$/,
-    endWithNegative = /([*/+])-$/,
-    endWithDigitAndNegative = /(\d+[-])$/
+    endWithOperatorAndNegative = /([*/+])-$/,
+    endWithDigitAndNegative = /(\d+[-])$/,
+    isEmptyPositiveOrNegative = /^((\s*)|([+-]))$/,
+    isEmptyOrPositive = /^((\s*)|[+])$/,
+    isEmptyOrNegative = /^((\s*)|[-])$/,
+    getLastDigit = /(-?\d+)$/
 
 const calculatorReducer = (state = initialState, action) => {
+    let { currentVal, prevVal, formula, evaluated } = state
     switch (action.type) {
         case NUMBER_INPUT:
-            if (state.evaluated) {
-                return {
-                    ...state,
-                    currentVal: action.number,
-                    formula: action.number === "0" ? "" : action.number,
-                    evaluated: false
-                }
+            const number = action.payload.number
+            if (evaluated) {
+                currentVal = number
+                formula = number === "0" ? "" : number
+                evaluated = false
             }
             else {
-                return {
-                    ...state,
-                    currentVal: state.currentVal === "0" || isOperator.test(state.currentVal) ? action.number : state.currentVal + action.number,
-                    formula: state.currentVal === "0" && action.number === "0" ? action.number : state.formula + action.number
-                }
+                currentVal = currentVal === "0" || isOperator.test(currentVal) ? number : currentVal + number
+                formula = currentVal === "0" && number === "0" ? number : formula + number
             }
-        case OPERATOR_INPUT:
-            if (state.evaluated) {
-                return {
-                    ...state,
-                    currentVal: action.operator,
-                    formula: state.prevVal + action.operator,
-                    evaluated: false
-                }
-            } else if (/^((\s*)|([+-]))$/.test(state.formula)) {
-                switch (action.operator) {
-                    case "-":
-                        return {
-                            ...state,
-                            currentVal: action.operator,
-                            formula: /^((\s*)|[+])$/.test(state.formula) ? action.operator : ""
-                        }
-                    case "+":
-                        return {
-                            ...state,
-                            currentVal: action.operator,
-                            formula: /^((\s*)|[-])$/.test(state.formula) ? action.operator : ""
-                        }
-                }
-            } else if (!endWithOperator.test(state.formula)) {
-                return {
-                    ...state,
-                    currentVal: action.operator,
-                    prevVal: state.formula,
-                    formula: state.formula + action.operator
-                }
-            } else if (endWithDigitAndNegative.test(state.formula) && action.operator === "-") {
-                return {
-                    ...state,
-                    currentVal: action.operator,
-                    formula: state.formula.replace(/-$/, "+")
-                }
-            } else if (!endWithNegative.test(state.formula)) {
-                return {
-                    ...state,
-                    currentVal: action.operator,
-                    formula: (endWithNegative.test(state.formula + action.operator) ? state.formula : state.prevVal) + action.operator
-                }
-            } else {
-                return {
-                    ...state,
-                    currentVal: action.operator,
-                    formula: state.prevVal + action.operator
-                }
-            }
-        case EVALUATED:
-            let expression = state.formula
-            while (endWithOperator.test(expression)) {
-                expression = expression.slice(0, -1)
-            }
-            let answer = Math.round(10000 * eval(expression)) / 10000
             return {
                 ...state,
-                currentVal: answer,
-                formula: state.formula + "=" + answer,
-                prevVal: answer,
-                evaluated: true
+                currentVal,
+                formula,
+                evaluated
+            }
+        case OPERATOR_INPUT:
+            const operator = action.payload.operator
+            if (evaluated) {
+                currentVal = operator
+                formula = prevVal + operator
+                evaluated = false
+            } else if (isEmptyPositiveOrNegative.test(formula)) {
+                switch (operator) {
+                    case "-":
+                        currentVal = operator
+                        formula = isEmptyOrPositive.test(formula) ? operator : ""
+                        break;
+                    case "+":
+                        currentVal = operator
+                        formula = isEmptyOrNegative.test(formula) ? operator : ""
+                        break;
+                    default: break;
+                }
+            } else if (!endWithOperator.test(formula)) {
+                currentVal = operator
+                prevVal = formula
+                formula += operator
+            } else if (endWithDigitAndNegative.test(formula) && operator === "-") {
+                currentVal = operator
+                formula = formula.replace(/-$/, "+")
+            } else if (!endWithOperatorAndNegative.test(formula)) {
+                currentVal = operator
+                if (endWithOperatorAndNegative.test(formula + operator)) {
+                    formula += operator
+                }
+                else formula = prevVal + operator
+            } else {
+                currentVal = operator
+                formula = prevVal + operator
+            }
+            return {
+                ...state,
+                currentVal,
+                prevVal,
+                formula,
+                evaluated
+            }
+        case EVALUATED:
+            let answer = 0
+            if(!evaluated && formula !== ""){
+                let expression = formula
+                while (endWithOperator.test(expression)) {
+                    expression = expression.slice(0, -1)
+                }
+                answer = Math.round(10000 * eval(expression)) / 10000
+                currentVal = answer
+                formula = formula + "=" + answer
+                prevVal = answer
+                evaluated = true
+            }
+            else {
+                currentVal = "0"
+                prevVal = "0"
+                formula = ""
+                evaluated = false
+            }
+            return {
+                ...state,
+                currentVal,
+                formula,
+                prevVal,
+                evaluated
             }
         case CLEAR:
             return {
+                ...state,
                 currentVal: "0",
                 prevVal: "0",
                 formula: "",
                 evaluated: false
             }
         case DECIMAL_INPUT:
-            if (state.evaluated) {
-                return {
-                    ...state,
-                    currentVal: "0.",
-                    formula: "0.",
-                    evaluated: false
-                }
-            } else if (!state.currentVal.includes(".")) {
-                if (endWithOperator.test(state.formula) ||
-                    (state.currentVal === "0" && state.formula === "")) {
-                    return {
-                        ...state,
-                        currentVal: "0.",
-                        formula: state.formula + "0."
-                    }
+            if (evaluated) {
+                currentVal = "0."
+                formula = "0."
+                evaluated = false
+            } else if (!currentVal.includes(".")) {
+                if (endWithOperator.test(formula) ||
+                    (currentVal === "0" && formula === "")) {
+                        currentVal = "0."
+                        formula += "0."
                 }
                 else {
-                    return {
-                        ...state,
-                        currentVal: state.formula.match(/(-?\d+\.?\d*)$/)[0] + ".",
-                        formula: state.formula + "."
-                    }
+                    currentVal = formula.match(getLastDigit)[0] + ".", //Regex get the last digit
+                    formula += "."
                 }
             }
-        default: return state
+            return {
+                ...state,
+                currentVal,
+                formula,
+                evaluated
+            }
+        default: return state;
     }
 }
 

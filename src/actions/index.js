@@ -15,14 +15,18 @@ export const evaluate = () => {
 export const numberInput = (number) => {
     return {
         type: NUMBER_INPUT,
-        number
+        payload: {
+            number
+        }
     }
 }
 
 export const operatorInput = (operator) => {
     return {
         type: OPERATOR_INPUT,
-        operator
+        payload: {
+            operator
+        }
     }
 }
 
