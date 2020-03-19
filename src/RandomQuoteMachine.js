@@ -19,14 +19,14 @@ class RandomQuoteMachine extends React.Component {
     this.setState({
       color: this.getRandomColor()
     })
-    this.props.dispatch(genarateQuote(this.getRandomQuote()))
+    this.props.newQuote(this.getRandomQuote())
   }
 
   handleChange = () => {
     this.setState({
       color: this.getRandomColor()
     })
-    this.props.dispatch(genarateQuote(this.getRandomQuote()))
+    this.props.newQuote(this.getRandomQuote())
   }
 
   getRandomQuote() {
@@ -69,4 +69,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(RandomQuoteMachine);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newQuote: (quote) => {dispatch(genarateQuote(quote))} 
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(RandomQuoteMachine);
