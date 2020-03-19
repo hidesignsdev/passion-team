@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import { genarateQuote } from './actions';
 import quotes from './resources/quotes';
@@ -38,19 +38,18 @@ class RandomQuoteMachine extends React.Component {
   }
 
   render() {
-      const color = {
-        'color': this.state.color,
-        'backgroundColor': this.state.color,
-        'opacity': 0.8,
-        'transition': '1s'
-      }
-      const buttonColor = {
-        'backgroundColor': this.state.color,
-        'opacity': 0.8,
-        'transition': '1s'
-      }
+    const { color } = this.state
+    const buttonColor = {
+      'backgroundColor': color,
+      'opacity': 0.8,
+      'transition': '1s'
+    }
+    const randomColor = {
+      ...buttonColor,
+      'color': color
+    }
     return (
-      <div className="wrapper" style={color}>
+      <div className="wrapper" style={randomColor}>
         <div id="quote-box">
           <p id="text">{this.props.quote.content}</p>
           <p id="author">- {this.props.quote.author}</p>
