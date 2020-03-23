@@ -1,4 +1,4 @@
-import { LOAD_DATA_SUCCESS, LOAD_DATA_FAILURE } from '../types'
+import { LOAD_DATA_SUCCESS, SET_VISIBILITY } from '../types'
 
 const initialState = {
     information: {},
@@ -7,10 +7,10 @@ const initialState = {
 
 const fetchGithubReducer = (state = initialState, action) => {
     switch(action.type){
-        case LOAD_DATA_FAILURE:
+        case SET_VISIBILITY:
             return {
                 ...state,
-                visibility: false
+                visibility: action.payload.filter
             }
         case LOAD_DATA_SUCCESS:
             return {

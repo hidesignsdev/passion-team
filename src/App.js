@@ -1,8 +1,10 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
+import Input from './components/Input'
+import Output from './components/Output'
 
 import { connect } from 'react-redux';
-import { fetchInfo } from './actions'
+import { fetchInfo, viewInfo } from './actions'
 
 class App extends React.Component {
   state = {
@@ -15,32 +17,32 @@ class App extends React.Component {
   }
   handleOnClick = () => {
     this.props.fetchInfo(this.state.URL)
-    console.log(this.props.githubUser)
   }
+
+  handleOnBack = () => {
+    this.props.viewInfo(false)
+  }
+
   render() {
+    let information;
+    if (!this.props.githubUser.visibility) {
+      information = (
+        <Input
+          URL={this.state.URL}
+          handleOnChange={this.handleOnChange}
+          handleOnClick={this.handleOnClick}
+        />
+      )
+    }
+    else information = (
+      <Output
+        githubUser={this.props.githubUser}
+        handleOnBack={this.handleOnBack}
+      />
+    )
     return (
-      <div className="Wrapper">
-        {!this.props.githubUser.visibility &&
-          <div className="container">
-            <div>URL: <input value={this.state.URL} onChange={this.handleOnChange} /></div>
-            <div>
-              <button onClick={this.handleOnClick}>Fetch</button>
-            </div>
-          </div>
-        }
-        <div className="container">
-          <img src={this.props.githubUser.information.avatar_url} />
-          <div className="username">
-            <h1>
-              <span>{this.props.githubUser.information.name}</span>
-              <span>{this.props.githubUser.information.login}</span>
-            </h1>
-          </div>
-          <div className="user-bio">
-            {this.props.githubUser.information.bio}
-          </div>
-          <div className="user-vcard">{this.props.githubUser.information.company}</div>
-        </div>
+      <div className="wrapper">
+        {information}
       </div>
     );
   }
@@ -48,7 +50,8 @@ class App extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInfo: (URL) => dispatch(fetchInfo(URL))
+    fetchInfo: (URL) => dispatch(fetchInfo(URL)),
+    viewInfo: (filter) => dispatch(viewInfo(filter))
   }
 }
 
