@@ -10,7 +10,6 @@ export default class Input extends Component {
                 </div>
                 <button onClick={this.props.handleOnClick}>Fetch</button>
             </div>
-
         )
     }
 }

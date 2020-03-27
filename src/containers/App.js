@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.scss';
-import Input from './components/Input'
-import Output from './components/Output'
+import '../App.scss';
+import Input from '../components/Input'
+import Output from '../components/Output'
 
 import { connect } from 'react-redux';
-import { fetchInfo, viewInfo } from './actions'
+import { requestData, viewInfo } from '../actions' 
 
 class App extends React.Component {
   state = {
@@ -16,7 +16,7 @@ class App extends React.Component {
     })
   }
   handleOnClick = () => {
-    this.props.fetchInfo(this.state.URL)
+    this.props.requestData(this.state.URL) 
   }
 
   handleOnBack = () => {
@@ -25,7 +25,7 @@ class App extends React.Component {
 
   render() {
     let information;
-    if (!this.props.githubUser.visibility) {
+    if (this.props.githubUser.visibility === false) {
       information = (
         <Input
           URL={this.state.URL}
@@ -50,7 +50,7 @@ class App extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInfo: (URL) => dispatch(fetchInfo(URL)),
+    requestData: (URL) => dispatch(requestData(URL)),
     viewInfo: (filter) => dispatch(viewInfo(filter))
   }
 }

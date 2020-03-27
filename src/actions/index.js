@@ -1,6 +1,7 @@
-import { LOAD_DATA_SUCCESS, SET_VISIBILITY } from '../types'
-
-const isBlank = /^\s*$/
+export const SET_VISIBILITY = 'SET_VISIBILITY'
+export const REQUESTING_DATA = 'REQUESTING_DATA'
+export const REQUEST_DATA_SUCCESS = 'REQUEST_DATA_SUCCESS'
+export const REQUEST_DATA_FAILURE = 'REQUEST_DATA_FAILURE'
 
 export const viewInfo = (filter) => {
     return {
@@ -9,17 +10,16 @@ export const viewInfo = (filter) => {
     }
 }
 
-export const fetchInfo = (URL) => {
-    return dispatch => {
-        if (isBlank.test(URL)) dispatch(viewInfo(false))
-        fetch(URL)
-            .then(res => {
-                if (res.ok) return res.json()
-                else throw new Error('Request failed.')
-            })
-            .then(data => {
-                dispatch({ type: LOAD_DATA_SUCCESS, payload: { data } })
-            })
-            .catch(err => console.log(err))
+export const requestData = (url) => {
+    return {
+        type: REQUESTING_DATA,
+        payload: { url }
+    }
+}
+
+export const requestDataSuccess = (data) => {
+    return {
+        type: REQUEST_DATA_SUCCESS,
+        payload: { data }
     }
 }
