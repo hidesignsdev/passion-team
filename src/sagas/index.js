@@ -1,22 +1,27 @@
 import {call, put, takeEvery} from 'redux-saga/effects'
 
 import {REQUESTING_DATA} from '../actions'
-import {requestDataSuccess, requestDataFailure } from '../actions'
+import {REQUEST_DATA_SUCCESS, REQUEST_DATA_FAILURE } from '../actions'
 
-async function fetchUserFromAPI(URL){
-    let response = await fetch(URL);
-    let data = await response.json()
-    return data
+const fetchUserFromAPI = async (URL) =>{
+    try {
+        let response = await fetch(URL)
+        let data = response.json()
+        return data
+    }
+    catch(error){
+        return error
+    }
 }
 
 function* fetchData(action){
     try {
-        const data = yield call(fetchUserFromAPI, action.payload.url) 
-        console.log(data) 
-        yield put(requestDataSuccess(data))
+        let data = yield call(fetchUserFromAPI, action.payload.url)
+        if(data.message === "Not Found") throw new Error("Whoops!")
+        yield put({type: REQUEST_DATA_SUCCESS, payload: {data}})
     }
     catch(err){
-        console.log(err)
+        yield put({type: REQUEST_DATA_FAILURE})
     }
 }
 

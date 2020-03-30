@@ -1,24 +1,43 @@
 import { combineReducers } from 'redux';
 
-import { SET_VISIBILITY, REQUEST_DATA_SUCCESS } from '../actions'
+import { INITIAL, REQUEST_DATA_SUCCESS, REQUEST_DATA_FAILURE, REQUESTING_DATA } from '../actions'
 
 const initialState = {
     information: {},
+    isLoading: false,
+    error: false,
     visibility: false
 }
 
 const fetchGithubReducer = (state = initialState, action) => {
     switch(action.type){
-        case SET_VISIBILITY:
+        case INITIAL:
             return {
                 ...state,
-                visibility: action.payload.filter
+                isLoading: false,
+                error: false,
+                visibility: false
+            }
+        case REQUESTING_DATA:
+            return {
+                ...state,
+                isLoading: true
             }
         case REQUEST_DATA_SUCCESS:
             return {
                 ...state,
                 information: action.payload.data,
+                isLoading: false,
+                error: false,
                 visibility: true
+            }
+        case REQUEST_DATA_FAILURE:
+            return {
+                ...state,
+                information: {},
+                isLoading: false,
+                error: true,
+                visibility: false
             }
         default: return state
     }
