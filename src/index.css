@@ -53,3 +53,11 @@ form .bottom{
   border-color: #167bff;
   box-shadow: none;
 }
+
+.showNhide{
+  float: right;
+  margin-top: -25px;
+  margin-right: 10px;
+  z-index: 2;
+  position: relative;
+}

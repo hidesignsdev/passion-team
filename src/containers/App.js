@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,22 +7,34 @@ import {
 
 import SignInForm from '../components/SignInForm'
 import SignUpForm from '../components/SignUpForm'
-function App() {
-  return (
-    <Router>
-      <div className="App">
-        <div className="auth-wrapper">
-          <div className="auth-inner">
-            <Switch>
-              <Route exact path='/' component={SignInForm} />
-              <Route path="/sign-in" component={SignInForm} />
-              <Route path="/sign-up" component={SignUpForm} />
-            </Switch>
+
+class App extends Component {
+  submit = values => {
+    console.log(values)
+  }
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <div className="auth-wrapper">
+            <div className="auth-inner">
+              <Switch>
+                <Route exact path='/'>
+                  <SignInForm onSubmit={this.submit}/>
+                </Route>
+                <Route path="/sign-in">
+                  <SignInForm onSubmit={this.submit}/>
+                </Route>
+                <Route path="/sign-up">
+                  <SignUpForm />
+                </Route>
+              </Switch>
+            </div>
           </div>
         </div>
-      </div>
-    </Router>
-  );
+      </Router>
+    );
+  }
 }
 
 export default App;
