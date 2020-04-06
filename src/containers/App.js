@@ -26,7 +26,7 @@ class App extends Component {
                   <SignInForm onSubmit={this.submit}/>
                 </Route>
                 <Route path="/sign-up">
-                  <SignUpForm />
+                  <SignUpForm onSubmit={this.submit}/>
                 </Route>
               </Switch>
             </div>

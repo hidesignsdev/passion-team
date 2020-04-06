@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import FormGroup from './FormGroup';
+import { connect } from 'react-redux';
+import {FormGroup, validate} from './FormGroup';
 import { Link } from 'react-router-dom'
 import { reduxForm, Field } from 'redux-form';
-
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { signUp } from '../actions'
 
 class SignUpForm extends Component {
     constructor(props){
@@ -21,10 +22,15 @@ class SignUpForm extends Component {
         })
     }
 
+    submit = values => {
+        console.log('values',values)
+        this.props.signUp(values)
+    }
+
     render() {
-        const {handleSubmit} = this.props
+        const { handleSubmit } = this.props
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(this.submit)}>
                 <img src="#" alt="empty"/>
                 <div>
                     <Field
@@ -76,7 +82,14 @@ class SignUpForm extends Component {
 }
 
 SignUpForm = reduxForm({
-    form: 'signup'
+    form: 'signup',
+    validate
 })(SignUpForm)
 
-export default SignUpForm;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: (values) => dispatch(signUp(values))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SignUpForm);

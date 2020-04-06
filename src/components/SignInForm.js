@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormGroup from './FormGroup';
+import { FormGroup, validate } from './FormGroup';
 import { Link } from "react-router-dom";
 import { reduxForm, Field } from 'redux-form';
 
@@ -11,7 +11,7 @@ class SignInForm extends Component {
         const {handleSubmit} = this.props
         return (
             <form onSubmit={handleSubmit}>
-                <img src="#" alt="empty"/>
+                <img src="#" alt="empty"/>  
                 <div>
                     <Field
                         name="email"
@@ -39,7 +39,8 @@ class SignInForm extends Component {
 }
 
 SignInForm = reduxForm({
-    form: 'signin'
+    form: 'signin',
+    validate
 })(SignInForm)
 
 export default SignInForm;
