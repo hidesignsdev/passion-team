@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import { FormGroup, validate } from './FormGroup';
+import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { reduxForm, Field } from 'redux-form';
+import { signIn } from '../actions'
+import { FormGroup } from './FormGroup';
 
 class SignInForm extends Component {
-    constructor(props){
-        super(props)
+    submit = values => {
+        this.props.signIn(values)
     }
+
     render() {
-        const {handleSubmit} = this.props
+        const { handleSubmit } = this.props
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(this.submit)} className="auth-inner">
                 <img src="#" alt="empty"/>  
-                <div>
+                <div className="form-container">
                     <Field
                         name="email"
                         component={FormGroup}
@@ -28,7 +31,7 @@ class SignInForm extends Component {
                         placeholder="Enter your password"
                         forgotpassword
                     />
-                    <button type="submit" className="btn btn-primary btn-block">Sign In</button>
+                    <button type="submit" className="btn">Sign In</button>
                 </div>
                 <p className="bottom">
                     Don't have account? <Link to={"/sign-up"}>Sign Up</Link>
@@ -39,8 +42,19 @@ class SignInForm extends Component {
 }
 
 SignInForm = reduxForm({
-    form: 'signin',
-    validate
+    form: 'signin'
 })(SignInForm)
 
-export default SignInForm;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+  }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn: (values) => dispatch(signIn(values))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);

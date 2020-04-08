@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {FormGroup, validate} from './FormGroup';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { reduxForm, Field } from 'redux-form';
-import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2'
+
+import { FormGroup, validate } from './FormGroup';
 import { signUp } from '../actions'
 
+
 class SignUpForm extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             type: "password",
@@ -17,31 +20,36 @@ class SignUpForm extends Component {
 
     handleOnClick = () => {
         this.setState({
-            type: this.state.type === "text"? "password" : "text",
-            icon: this.state.icon === faEye ? faEyeSlash : faEye 
+            type: this.state.type === "text" ? "password" : "text",
+            icon: this.state.icon === faEye ? faEyeSlash : faEye
         })
     }
 
     submit = values => {
-        console.log('values',values)
         this.props.signUp(values)
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Sign-up complete.',
+            onClose: () => this.props.history.push('/')
+        })
     }
 
     render() {
         const { handleSubmit } = this.props
         return (
-            <form onSubmit={handleSubmit(this.submit)}>
-                <img src="#" alt="empty"/>
-                <div>
+            <form onSubmit={handleSubmit(this.submit)} className="auth-inner">
+                <img src="#" alt="empty" />
+                <div className="form-container">
                     <Field
-                        name="firstname"
+                        name="firstName"
                         component={FormGroup}
                         label="First name"
                         type="text"
                         placeholder="Jin-young"
                     />
                     <Field
-                        name="lastname"
+                        name="lastName"
                         component={FormGroup}
                         label="Last name"
                         type="text"
@@ -71,7 +79,7 @@ class SignUpForm extends Component {
                         placeholder="Re-enter your password"
 
                     />
-                    <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                    <button type="submit" className="btn">Sign Up</button>
                 </div>
                 <p className="bottom">
                     Already have account? <Link to={"/sign-in"}>Sign In</Link>
@@ -92,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignUpForm);
+export default connect(null, mapDispatchToProps)(withRouter(SignUpForm));

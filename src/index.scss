@@ -1,0 +1,76 @@
+body{
+    background: #167bff;
+    font-family: sans-serif;
+    .auth-wrapper {
+        padding-top: 30px;
+        display: flex;
+        justify-content: center;
+        text-align: left;
+        .auth-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            min-width: 380px;
+            min-height: 600px;
+            background: white;
+            padding: 40px 55px 45px 55px;
+            border-radius: 5px;
+            box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+            transition: all .3s;
+            img {
+                align-self: center;
+                background: grey;
+                width: 100px;
+                height: 100px;
+            }
+            .form-container{
+                width: 100%;
+                .form-group{
+                    padding-bottom: 20px;
+                    .form-label{
+                        display: flex;
+                        .forgot-password{
+                            width: 100%;
+                            text-align: right;
+                        }
+                    }
+                    select, input{
+                        box-sizing: border-box;
+                        width: 100%;
+                        display: block;
+                        padding: 8px;
+                        margin-top: 8px;
+                        border: 2px solid black;
+                        border-radius: 4px;
+                        box-shadow: 0;
+                    }
+                    .showNhide{
+                        float: right;
+                        margin-top: -25px;
+                        margin-right: 10px;
+                        z-index: 2;
+                        position: relative;
+                    }
+                    .validate-error{
+                        font-size: 14px;
+                        color: red;
+                        font-weight: 500;
+                        position: absolute;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+.btn{
+    padding: 5px;
+    width: 100%;
+    display: block;
+    border-radius: 4px;
+    background-color: #167bff;
+    color: white;
+    font-size: 15px;
+}
