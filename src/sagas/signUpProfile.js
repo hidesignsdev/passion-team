@@ -1,29 +1,30 @@
-import {call, put, takeLatest} from 'redux-saga/effects'
-import {SIGN_UP, SIGN_UP_SUCCESS} from '../actions'
-import axios from 'axios'
-import {appHeader} from '../appHeader'
+import { call, put, takeLatest } from 'redux-saga/effects'
+import { SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from '../actions'
+import Swal from 'sweetalert2'
+import request from '../api'
 
-const signUpRequest = ({ firstName, lastName, email, password }) => {
-    return axios.request({
-        method: 'POST',
-        headers: appHeader,
-        url: 'https://api.korec-dev.scrum-dev.com/api/functions/userSignup',
-        data: {
-            firstName, lastName, email, password
-        }
-    })
-}
-
-function* signUpProfile(action){
+function* signUpProfile(action) {
     try {
-        let data = yield call(signUpRequest, action.payload.data)
-        yield put({type: SIGN_UP_SUCCESS, payload: data.data.result})
+        const { firstName, lastName, email, password } = action.payload.data
+        let data = yield call(request, '/functions/userSignup', { firstName, lastName, email, password })
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Sign-in success!'
+        })
+        yield put({ type: SIGN_UP_SUCCESS, payload: data.result })
     }
-    catch(err){
+    catch (err) {
         console.log(err)
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Error "+err.code+": "+err.error
+        })
+        yield put({ type: SIGN_UP_FAILURE, payload: {err} });
     }
 }
 
-export default function* watchSignUpProfile(){
+export default function* watchSignUpProfile() {
     yield takeLatest(SIGN_UP, signUpProfile)
 }

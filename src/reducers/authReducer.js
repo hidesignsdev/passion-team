@@ -1,51 +1,42 @@
-import {SIGN_IN, SIGN_UP, SIGN_UP_SUCCESS} from '../actions/index'
+import {SIGN_IN, SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_FAILURE} from '../actions/index'
+
 
 const initialState = {
     user: [],
-    authentication: false,
-    error: false,
-    errorMessage: ""
+    code: "",
+    error: "",
+    isLoading: false
 }
 
 const authReducer = (state = initialState, action) => {
     const user = state.user
-    let {authentication, error, errorMessage} = state.user
     switch(action.type){
         case SIGN_IN: 
-            for(let i=0;i<user.length;i++){
-                if(action.payload.data.email === user[i].email){
-                    if(action.payload.data.password === user[i].password){
-                        authentication = true
-                        error = false
-                        errorMessage = ""
-                        break
-                    }
-                    else{
-                        error = true
-                        errorMessage = "Password incorrect."
-                        break
-                    }
-                }
-                else{
-                    error = true
-                    errorMessage = "Email not found."
-                    break
-                }
-            }
-            console.log(errorMessage)
             return{
                 ...state,
-                authentication,
-                error,
-                errorMessage
+            }
+        case SIGN_UP:
+            return{
+                ...state,
+                isLoading: true
             }
         case SIGN_UP_SUCCESS:
-            console.log(action.payload)
             user.push(action.payload)
-            console.log('User:',user)
+            console.log(action)
             return{
                 ...state,
-                user
+                user,
+                code: "",
+                error: "",
+                isLoading: false
+            }
+        case SIGN_UP_FAILURE:
+            console.log(action)
+            return{
+                ...state,
+                code: action.payload.err.code,
+                error: action.payload.err.error,
+                isLoading: false
             }
         default: return state
     }

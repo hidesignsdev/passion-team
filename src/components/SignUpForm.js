@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { reduxForm, Field } from 'redux-form';
-import Swal from 'sweetalert2'
 
 import { FormGroup, validate } from './FormGroup';
 import { signUp } from '../actions'
@@ -14,7 +13,8 @@ class SignUpForm extends Component {
         super(props)
         this.state = {
             type: "password",
-            icon: faEye
+            icon: faEye,
+            isLoading: false
         }
     }
 
@@ -26,12 +26,12 @@ class SignUpForm extends Component {
     }
 
     submit = values => {
+        this.setState({
+            isLoading: true
+        })
         this.props.signUp(values)
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: 'Sign-up complete.',
-            onClose: () => this.props.history.push('/')
+        this.setState({
+            isLoading: false
         })
     }
 
@@ -79,7 +79,8 @@ class SignUpForm extends Component {
                         placeholder="Re-enter your password"
 
                     />
-                    <button type="submit" className="btn">Sign Up</button>
+                    <button type="submit" className="btn" disabled={this.props.auth.isLoading}>{this.props.auth.isLoading ? "Loading..." : "Sign Up"}</button>
+                    {this.props.auth.error ? <span className="validate-error">{this.props.auth.errorMessage}</span> : null}
                 </div>
                 <p className="bottom">
                     Already have account? <Link to={"/sign-in"}>Sign In</Link>
@@ -94,10 +95,16 @@ SignUpForm = reduxForm({
     validate
 })(SignUpForm)
 
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         signUp: (values) => dispatch(signUp(values))
     }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(SignUpForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUpForm));

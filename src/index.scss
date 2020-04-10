@@ -52,12 +52,7 @@ body{
                         z-index: 2;
                         position: relative;
                     }
-                    .validate-error{
-                        font-size: 14px;
-                        color: red;
-                        font-weight: 500;
-                        position: absolute;
-                    }
+ 
                 }
 
             }
@@ -73,4 +68,11 @@ body{
     background-color: #167bff;
     color: white;
     font-size: 15px;
+}
+
+.validate-error{
+    font-size: 14px;
+    color: red;
+    font-weight: 500;
+    position: absolute;
 }

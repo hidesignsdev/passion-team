@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const validate = values => {
     const errors = {}
-    if(!values.firstname){
-        errors.firstname = '*Required'
+    if(!values.firstName){
+        errors.firstName = '*Required'
     }
 
-    if(!values.lastname){
-        errors.lastname = '*Required'
+    if(!values.lastName){
+        errors.lastName = '*Required'
     }
 
     if(!values.email){
@@ -21,7 +21,7 @@ export const validate = values => {
     if(!values.password){
         errors.password = '*Required'
     }
-    else if(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)){
+    else if(!/^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(values.password)){
         errors.password = '*Must be at least 8 characters and at least one letter and one number'
     }
 
