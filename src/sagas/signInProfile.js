@@ -1,12 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { SIGN_UP, REQUESTING_SUCCESS, REQUESTING_FAILURE } from '../actions'
+import { SIGN_IN, REQUESTING_SUCCESS, REQUESTING_FAILURE } from '../actions'
 import Swal from 'sweetalert2'
 import request from '../api'
 
-function* signUpProfile(action) {
+function* signInProfile(action) {
     try {
-        const { firstName, lastName, email, password } = action.payload.data
-        let data = yield call(request, '/functions/userSignup', { firstName, lastName, email, password })
+        const { username, password } = action.payload.data
+        let data = yield call(request, '/functions/login', { username, password })
         yield put({ type: REQUESTING_SUCCESS, payload: data.result })
         Swal.fire({
             icon: 'success',
@@ -25,6 +25,6 @@ function* signUpProfile(action) {
     }
 }
 
-export default function* watchSignUpProfile() {
-    yield takeLatest(SIGN_UP, signUpProfile)
+export default function* watchSignInProfile() {
+    yield takeLatest(SIGN_IN, signInProfile)
 }

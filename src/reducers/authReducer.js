@@ -1,41 +1,41 @@
-import {SIGN_IN, SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_FAILURE} from '../actions/index'
+import {
+    SIGN_IN, SIGN_UP,
+    REQUESTING_SUCCESS, REQUESTING_FAILURE
+} from '../actions/index'
 
 
 const initialState = {
-    user: [],
-    code: "",
-    error: "",
-    isLoading: false
+    user: {},
+    sessionToken: null,
+    error: false,
+    errorMessage: "",
+    isLoading: false,
+    isLogin: false
 }
 
 const authReducer = (state = initialState, action) => {
-    const user = state.user
-    switch(action.type){
-        case SIGN_IN: 
-            return{
-                ...state,
-            }
-        case SIGN_UP:
-            return{
+    switch (action.type) {
+        case SIGN_IN:
+            return {
                 ...state,
                 isLoading: true
             }
-        case SIGN_UP_SUCCESS:
-            user.push(action.payload)
-            console.log(action)
-            return{
+        case SIGN_UP:
+            return {
                 ...state,
-                user,
-                code: "",
-                error: "",
-                isLoading: false
+                isLoading: true
             }
-        case SIGN_UP_FAILURE:
-            console.log(action)
-            return{
+        case REQUESTING_SUCCESS:
+            return {
                 ...state,
-                code: action.payload.err.code,
-                error: action.payload.err.error,
+                user: action.payload,
+                sessionToken: action.payload.sessionToken,
+                isLoading: false,
+                isLogin: true
+            }
+        case REQUESTING_FAILURE:
+            return {
+                ...state,
                 isLoading: false
             }
         default: return state

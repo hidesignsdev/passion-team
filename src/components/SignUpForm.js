@@ -26,13 +26,7 @@ class SignUpForm extends Component {
     }
 
     submit = values => {
-        this.setState({
-            isLoading: true
-        })
         this.props.signUp(values)
-        this.setState({
-            isLoading: false
-        })
     }
 
     render() {
@@ -80,7 +74,6 @@ class SignUpForm extends Component {
 
                     />
                     <button type="submit" className="btn" disabled={this.props.auth.isLoading}>{this.props.auth.isLoading ? "Loading..." : "Sign Up"}</button>
-                    {this.props.auth.error ? <span className="validate-error">{this.props.auth.errorMessage}</span> : null}
                 </div>
                 <p className="bottom">
                     Already have account? <Link to={"/sign-in"}>Sign In</Link>
@@ -107,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUpForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUpForm));

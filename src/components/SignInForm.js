@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { reduxForm, Field } from 'redux-form';
 import { signIn } from '../actions'
 import { FormGroup } from './FormGroup';
@@ -17,7 +17,7 @@ class SignInForm extends Component {
                 <img src="#" alt="empty"/>  
                 <div className="form-container">
                     <Field
-                        name="email"
+                        name="username"
                         component={FormGroup}
                         label="Email"
                         type="email"
@@ -31,7 +31,7 @@ class SignInForm extends Component {
                         placeholder="Enter your password"
                         forgotpassword
                     />
-                    <button type="submit" className="btn">Sign In</button>
+                    <button type="submit" className="btn" disabled={this.props.auth.isLoading}>{this.props.auth.isLoading ? "Loading..." : "Sign In"}</button>
                 </div>
                 <p className="bottom">
                     Don't have account? <Link to={"/sign-up"}>Sign Up</Link>
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignInForm));

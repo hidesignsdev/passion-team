@@ -2,31 +2,41 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import { createBrowserHistory as history } from "history";
+import { connect } from 'react-redux';
+
 import SignInForm from '../components/SignInForm'
 import SignUpForm from '../components/SignUpForm'
 import UserInfoForm from '../components/UserInfoForm';
 
 class App extends Component {
   render() {
+    const currentRoute = []
+    if(this.props.auth.isLogin){
+      currentRoute.push([
+        <Route path="/user-info" component={UserInfoForm} />,
+        <Redirect to="/user-info"/>
+      ])
+    }
+    else{
+      currentRoute.push([
+        <Route exact path="/" component={SignInForm} />,
+        <Route path="/sign-in" component={SignInForm} />,
+        <Route path="/sign-up" component={SignUpForm} />,
+        <Redirect to="/"/>
+      ])
+    }
+    console.log(currentRoute)
     return (
       <Router history={history}>
         <div className="auth-wrapper">
           <Switch>
-            <Route exact path='/'>
-              <SignInForm history={history}/>
-            </Route>
-            <Route path="/sign-in">
-              <SignInForm history={history}/>
-            </Route>
-            <Route path="/sign-up">
-              <SignUpForm history={history}/>
-            </Route>
-            <Route path="/user-info">
-              <UserInfoForm history={history}/>
-            </Route>
+            {
+              currentRoute
+            }
           </Switch>
         </div>
       </Router>
@@ -34,4 +44,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, null)(App);

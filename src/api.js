@@ -1,11 +1,17 @@
 import axios from 'axios';
 import configs from './configs.json'
+import {store} from './index'
 
 const getAxiosInstance = async () => {
     const headers = {}
     headers['X-Parse-Application-Id'] = configs.API_APP_ID
     headers['X-Parse-REST-API-Key'] = configs.API_REST_API_KEY
     const apiServerUrl = configs.API_SERVER_URL
+    const token = store.getState().auth.sessionToken
+    
+    if (token) {
+        headers['X-Parse-Session-Token'] = token;
+      }
 
     const axiosInstance = axios.create({
         baseURL: apiServerUrl,
