@@ -15,7 +15,7 @@ import UserInfoForm from '../components/UserInfoForm';
 class App extends Component {
   render() {
     const currentRoute = []
-    if(this.props.auth.isLogin){
+    if(this.props.auth.isLogin || true){
       currentRoute.push([
         <Route path="/user-info" component={UserInfoForm} />,
         <Redirect to="/user-info"/>
@@ -29,7 +29,6 @@ class App extends Component {
         <Redirect to="/"/>
       ])
     }
-    console.log(currentRoute)
     return (
       <Router history={history}>
         <div className="auth-wrapper">

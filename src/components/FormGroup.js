@@ -43,15 +43,7 @@ export const FormGroup = (props) => {
                 ) : null }
                 
             </div>
-
-            { props.type === "select" ? 
-                (<select>
-                    <option value="male">男性</option>
-                    <option value="female">女性</option>
-                    <option value="other">その他</option>
-                </select>) :
-                <input {...input} id={input.name} type={type} className="form-control" placeholder={placeholder}/ >
-            }
+            <input {...input} id={input.name} type={type} className="form-control" placeholder={placeholder}/ >
 
             { props.icon ? 
                 <FontAwesomeIcon icon={props.icon} onClick={props.handleOnClick} className="showNhide"/>
