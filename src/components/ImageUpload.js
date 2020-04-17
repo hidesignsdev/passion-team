@@ -1,39 +1,42 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 class ImageUpload extends Component {
     constructor(props){
         super(props)
         this.state = {
-            file: '',
             imgPreviewUrl: ''
         }
     }
     handleImgChange = (e) => {
+        const { input: { onChange } } = this.props
+
         let reader = new FileReader()
         let file = e.target.files[0]
+
         reader.onloadend = () => {
             this.setState({
-              file: file,
               imgPreviewUrl: reader.result
             });
         }
-
-        reader.readAsDataURL(file)
+        if(file){
+            reader.readAsDataURL(file)
+            onChange(file)
+        }
     }
     render() {
-        console.log('state',this.state)
-        let imgPreview = null
-        if(this.state.imgPreviewUrl){
-            imgPreview = <img src={this.state.imgPreviewUrl}/>
-        }
         return (
-            <div className="img-wrapper">
-                {imgPreview}
+            <div className="image-wrapper" onClick={()=>{this.input.click()}}>
+                <img src={this.state.imgPreviewUrl} className="user-avatar"/>
+                <FontAwesomeIcon icon={faCamera} className="input-icon"/>
                 <input
-                    name="avatarId"
+                    ref={component => this.input = component}
+                    name={this.props.input.name}
                     type="file" 
                     accept="image/*"
                     onChange={this.handleImgChange}
+                    className="hidden"
                 />
             </div>
         );

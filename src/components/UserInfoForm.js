@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom"
+
 import { FormGroup } from './FormGroup';
-import ImageUpload from './ImageUpload'
+import ImageUpload from './ImageUpload';
+import {updateProfile} from '../actions/index'
 
 class UserInfoForm extends Component {
     submit = values => {
-        console.log(values.file)
-        console.log('result',values)
+        this.props.updateProfile(values)
     }
     render() {
         const { handleSubmit } = this.props
+        if(this.props.auth.isComplete) this.props.history.push('/account')
         return (
             <form onSubmit={handleSubmit(this.submit)} className="auth-inner">
-                <div>
+                <div className="header">
                     <h2>Personal Information</h2>
-                    <Field name="avatarId" component={ImageUpload}/>
+                    <Field name="file" component={ImageUpload}/>
                 </div>
                 <div className="form-container">
                     <div className="form-group">
@@ -31,7 +34,7 @@ class UserInfoForm extends Component {
                     </div>
 
                     <Field
-                        name="dateOfBirthoptional"
+                        name="dateOfBirth"
                         component={FormGroup}
                         label="Birthday"
                         type="date"
@@ -47,4 +50,17 @@ UserInfoForm = reduxForm({
     form: 'userinfo',
 })(UserInfoForm)
 
-export default UserInfoForm;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateProfile: (values) => dispatch(updateProfile(values))
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(UserInfoForm));

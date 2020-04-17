@@ -8,7 +8,6 @@ const getAxiosInstance = async () => {
     headers['X-Parse-REST-API-Key'] = configs.API_REST_API_KEY
     const apiServerUrl = configs.API_SERVER_URL
     const token = store.getState().auth.sessionToken
-    
     if (token) {
         headers['X-Parse-Session-Token'] = token;
       }
@@ -20,7 +19,6 @@ const getAxiosInstance = async () => {
 
     axiosInstance.interceptors.response.use(
         response => {
-            console.log(response)
             if([200].includes(response.status)){
                 const result = response.data
                 // result.statusCode = response.status

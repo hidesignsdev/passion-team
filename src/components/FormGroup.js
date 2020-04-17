@@ -43,7 +43,12 @@ export const FormGroup = (props) => {
                 ) : null }
                 
             </div>
-            <input {...input} id={input.name} type={type} className="form-control" placeholder={placeholder}/ >
+            <input {...input} 
+                id={input.name} 
+                type={type} 
+                className="form-control" 
+                placeholder={placeholder}
+            />
 
             { props.icon ? 
                 <FontAwesomeIcon icon={props.icon} onClick={props.handleOnClick} className="showNhide"/>

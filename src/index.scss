@@ -24,6 +24,49 @@ body{
                 width: 100px;
                 height: 100px;
             }
+            .header{
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                .image-wrapper{
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                    .user-avatar{
+                        background: grey;
+                        max-width: 150px;
+                        max-height: 150px;
+                        border-radius: 50%;
+                    }
+                    .input-icon{
+                        min-width: 25px;
+                        min-height: 25px;
+                        margin-top: -25px;
+                        margin-right: -50px;
+                        z-index: 2;
+                        position: relative;
+                    }
+                    .hidden{
+                        display: none;
+                    }
+                }
+            }
+            .main{
+                width: 100%;
+                .button, .alert{
+                    border: none;
+                    background: none;
+                    font-size: 16px;
+                    font-weight: 600;
+                    outline: none;
+                }
+                .alert{
+                    color: red;
+                }
+
+            }
             .form-container{
                 width: 100%;
                 .form-group{

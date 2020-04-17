@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import SignInForm from '../components/SignInForm'
 import SignUpForm from '../components/SignUpForm'
 import UserInfoForm from '../components/UserInfoForm';
+import Account from '../components/Account';
 
 class App extends Component {
   render() {
@@ -18,7 +19,8 @@ class App extends Component {
     if(this.props.auth.isLogin || true){
       currentRoute.push([
         <Route path="/user-info" component={UserInfoForm} />,
-        <Redirect to="/user-info"/>
+        <Route path="/account" component={Account} />,
+        <Redirect to="/account"/>
       ])
     }
     else{
