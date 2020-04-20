@@ -10,6 +10,7 @@ function* personalProfile(action) {
         const payload = new FormData()
         payload.set('type', 'AVATAR')
         payload.append('file', file)
+        console.log('here goes the payload', payload)
         dateOfBirth = moment(dateOfBirth).format('YYYY/MM/DD')
 
         let img = yield call(request,'/upload/uploadImage', payload)

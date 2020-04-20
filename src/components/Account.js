@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { signOut } from '../actions/index'
 
 class Account extends Component {
     render() {
         return (
             <div className="auth-inner">
                 <div className="header">
-                    <img/>
-                    <h2>Park JinYoung</h2>
+                    <img src={this.props.auth.user.avatarUrl} alt="avatar"/>
+                    <h2>{this.props.auth.user.lastName+ ' ' + this.props.auth.user.firstName}</h2>
                 </div>
 
                 <div className="main">
@@ -15,7 +16,7 @@ class Account extends Component {
                     <hr/>
                     <button className="button">Change Password</button>
                     <hr/>
-                    <button className="alert">Sign Out</button>
+                    <button className="alert" onClick={this.props.signOut}>Sign Out</button>
                 </div>
 
                 <div className="footer"></div>
@@ -32,7 +33,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        
+        signOut: () => dispatch(signOut())
     }
 }
 

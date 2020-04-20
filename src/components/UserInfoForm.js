@@ -40,7 +40,7 @@ class UserInfoForm extends Component {
                         type="date"
                     />
                 </div>
-                <button type="submit" className="btn">Next</button>
+                <button type="submit" className="btn" disabled={this.props.auth.isLoading}>{this.props.auth.isLoading ? "Loading..." : "Next"}</button>
             </form>
         );
     }

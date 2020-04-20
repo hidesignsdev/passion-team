@@ -16,11 +16,11 @@ import Account from '../components/Account';
 class App extends Component {
   render() {
     const currentRoute = []
-    if(this.props.auth.isLogin || true){
+    if(this.props.auth.isLogin){
       currentRoute.push([
         <Route path="/user-info" component={UserInfoForm} />,
         <Route path="/account" component={Account} />,
-        <Redirect to="/account"/>
+        <Redirect to="/user-info"/>
       ])
     }
     else{

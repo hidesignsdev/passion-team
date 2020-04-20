@@ -56,11 +56,13 @@ body{
             .main{
                 width: 100%;
                 .button, .alert{
+                    display: flex;
                     border: none;
                     background: none;
                     font-size: 16px;
                     font-weight: 600;
                     outline: none;
+                    width: 100%;
                 }
                 .alert{
                     color: red;

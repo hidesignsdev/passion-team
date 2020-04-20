@@ -2,7 +2,8 @@ import {
     SIGN_IN, SIGN_IN_SUCCESS,
     SIGN_UP, SIGN_UP_SUCCESS,
     UPDATE_PROFILE, UPDATE_PROFILE_SUCCESS,
-    REQUESTING_FAILURE
+    REQUESTING_FAILURE,
+    SIGN_OUT
 } from '../actions/index'
 
 
@@ -31,6 +32,18 @@ const authReducer = (state = initialState, action) => {
                 sessionToken: action.payload.sessionToken,
                 isLoading: false,
                 isLogin: true
+            }
+        case SIGN_OUT:
+            return{
+                ...state,
+                user: {},
+                sessionToken: null,
+                error: false,
+                code: null,
+                errorMessage: "",
+                isLoading: false,
+                isLogin: false,
+                isComplete: false
             }
         case SIGN_UP:
             return {
