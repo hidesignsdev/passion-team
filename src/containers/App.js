@@ -16,7 +16,7 @@ import Account from '../components/Account';
 class App extends Component {
   render() {
     const currentRoute = []
-    if(this.props.auth.isLogin){
+    if(this.props.auth.isLogin || false){
       currentRoute.push([
         <Route path="/user-info" component={UserInfoForm} />,
         <Route path="/account" component={Account} />,
@@ -35,9 +35,7 @@ class App extends Component {
       <Router history={history}>
         <div className="auth-wrapper">
           <Switch>
-            {
-              currentRoute
-            }
+              {currentRoute}
           </Switch>
         </div>
       </Router>
