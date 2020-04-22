@@ -12,8 +12,9 @@ function* personalProfile(action) {
         payload.append('file', file)
         console.log('here goes the payload', payload)
         dateOfBirth = moment(dateOfBirth).format('YYYY/MM/DD')
-
+        console.log('pass here')
         let img = yield call(request,'/upload/uploadImage', payload)
+        console.log('but not here')
         let data = yield call(request, '/functions/updateProfileTesting', {gender, dateOfBirth, avatarId: img.objectId})
         console.log("Personal", data)
         yield put({ type: UPDATE_PROFILE_SUCCESS, payload: data.result })

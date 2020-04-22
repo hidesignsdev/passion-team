@@ -3,10 +3,24 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 import { FormGroup } from './FormGroup';
 import { signUp } from '../actions'
 
+const SignupSchema = Yup.object().shape({
+    firstName: Yup.string().required('Required'),
+    lastName: Yup.string().required('Required'),
+    email: Yup.string()
+        .email('Invalid email address')
+        .required('Required'),
+    password: Yup.string()
+        .matches(/^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,'*Must be at least 8 characters and at least one letter and one number')
+        .required('Required'),
+    repassword: Yup.string()
+        .oneOf([Yup.ref('password'),null], 'Password must match')
+        .required('Required')
+})
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -30,42 +44,13 @@ class SignUpForm extends Component {
         setSubmitting(false)
     }
 
-    validate = values => {
-        const errors = {}
-        if(!values.firstName){
-            errors.firstName = '*Required'
-        }
-    
-        if(!values.lastName){
-            errors.lastName = '*Required'
-        }
-    
-        if(!values.email){
-            errors.email = '*Required'
-        } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
-            errors.email = '*Invalid email address.'
-        }
-
-        if(!values.password){
-            errors.password = '*Required'
-        }
-        else if(!/^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(values.password)){
-            errors.password = '*Must be at least 8 characters and at least one letter and one number'
-        }
-    
-        if(values.repassword !== values.password){
-            errors.repassword = '*Password don\'t match'
-        }
-        return errors
-    }
-
     render() {
         return (
             <Formik
                 initialValues={{
                     firstName: '', lastName: '', email: '', password: '', repassword: ''
                 }}
-                validate={this.validate}
+                validationSchema={SignupSchema}
                 onSubmit={this.submit}
             >
                 {

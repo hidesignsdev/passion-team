@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Link, withRouter } from "react-router-dom";
-import { signIn } from '../actions'
+
+import { signIn } from '../actions';
 import { FormGroup } from './FormGroup';
 
 class SignInForm extends Component {
