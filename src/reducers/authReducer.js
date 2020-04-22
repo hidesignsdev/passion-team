@@ -13,24 +13,18 @@ const initialState = {
     error: false,
     code: null,
     errorMessage: "",
-    isLoading: false,
     isLogin: false,
     isComplete: false
 }
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SIGN_IN:
-            return {
-                ...state,
-                isLoading: true
-            }
         case SIGN_IN_SUCCESS:
+            console.log('im here',action.payload)
             return {
                 ...state,
                 user: action.payload,
                 sessionToken: action.payload.sessionToken,
-                isLoading: false,
                 isLogin: true
             }
         case SIGN_OUT:
@@ -41,33 +35,20 @@ const authReducer = (state = initialState, action) => {
                 error: false,
                 code: null,
                 errorMessage: "",
-                isLoading: false,
                 isLogin: false,
                 isComplete: false
-            }
-        case SIGN_UP:
-            return {
-                ...state,
-                isLoading: true
             }
         case SIGN_UP_SUCCESS:
             return {
                 ...state,
                 user: action.payload,
                 sessionToken: action.payload.sessionToken,
-                isLoading: false,
                 isLogin: true
-            }
-        case UPDATE_PROFILE:
-            return {
-                ...state,
-                isLoading: true
             }
         case UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
                 user: action.payload,
-                isLoading: false,
                 isLogin: true,
                 isComplete: true
             }
@@ -76,8 +57,7 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 error: true,
                 errorMessage: action.payload.error,
-                code: action.payload.code,
-                isLoading: false
+                code: action.payload.code
             }
         default: return state
     }

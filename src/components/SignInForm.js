@@ -6,28 +6,23 @@ import { signIn } from '../actions'
 import { FormGroup } from './FormGroup';
 
 class SignInForm extends Component {
-    submit = values => {
-        console.log(values)
+    submit = (values, {props = this.props, setSubmitting }) => {
+        props.signIn(values)
+        setSubmitting(false)
     }
 
     render() {
+        
         return (
             <Formik
                 initialValues={{
                     username: '',
                     password: ''
                 }}
-                validate={(values) => {
-                    let error = {}
-                    if (!values.username) error.username = 'REQUIRED';
-
-                    return error
-                }}
                 onSubmit={this.submit}
             >
                 {
                     formProps => {
-                        console.log(formProps)
                         return (
                             <Form className="auth-inner">
                                 <img src="#" alt="empty" />

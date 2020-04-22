@@ -19,6 +19,20 @@ export const signIn = (data) => {
     }
 }
 
+export const signInSuccess = (data) => {
+    return {
+        type: SIGN_IN_SUCCESS, 
+        payload: data
+    }
+}
+
+export const requestFailure = (err) => {
+    return {
+        type: REQUESTING_FAILURE, 
+        payload: err
+    }
+}
+
 export const signOut = () => {
     return {type: SIGN_OUT}
 }
@@ -30,9 +44,23 @@ export const signUp = (data) => {
     }
 }
 
+export const signUpSuccess = (data) => {
+    return {
+        type: SIGN_UP_SUCCESS, 
+        payload: data
+    }
+}
+
 export const updateProfile = (data) => {
     return {
         type: UPDATE_PROFILE,
+        payload: data
+    }
+}
+
+export const updateProfileSuccess = (data) => {
+    return {
+        type: UPDATE_PROFILE_SUCCESS,
         payload: data
     }
 }

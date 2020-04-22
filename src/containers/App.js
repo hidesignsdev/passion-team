@@ -16,7 +16,7 @@ import Account from '../components/Account';
 class App extends Component {
   render() {
     const currentRoute = []
-    if(this.props.auth.isLogin || false){
+    if(this.props.auth.isLogin){
       currentRoute.push([
         <Route path="/user-info" component={UserInfoForm} />,
         <Route path="/account" component={Account} />,

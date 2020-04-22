@@ -10,8 +10,8 @@ class ImageUpload extends Component {
         }
     }
     handleImgChange = (e) => {
-        const { input: { onChange } } = this.props
-
+        const { form: { setFieldValue } } = this.props
+        if(!e.target.files[0]) { return }
         let reader = new FileReader()
         let file = e.target.files[0]
 
@@ -20,10 +20,9 @@ class ImageUpload extends Component {
               imgPreviewUrl: reader.result
             });
         }
-        if(file){
-            reader.readAsDataURL(file)
-            onChange(file)
-        }
+
+        reader.readAsDataURL(file)
+        setFieldValue("file",file)
     }
     render() {
         return (
@@ -32,7 +31,7 @@ class ImageUpload extends Component {
                 <FontAwesomeIcon icon={faCamera} className="input-icon"/>
                 <input
                     ref={component => this.input = component}
-                    name={this.props.input.name}
+                    name={this.props.field.name}
                     type="file" 
                     accept="image/*"
                     onChange={this.handleImgChange}
