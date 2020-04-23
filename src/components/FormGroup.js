@@ -25,7 +25,7 @@ export const FormGroup = ({field, ...props}) => {
             : null }
 
             <span className="validate-error">
-                <ErrorMessage name={field.name} className="validate-error"/>
+                <ErrorMessage name={field.name}/>
             </span>       
 
             {/* { touched[field.name] && (errors[field.name] && <span className="validate-error">{errors[field.name]}</span>)} */}
