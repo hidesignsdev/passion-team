@@ -9,7 +9,7 @@ function* signInProfile(action) {
         let data = yield call(request, '/functions/login', { username, password })
         console.log('Login',data)
         yield put(signInSuccess(data.result))
-        
+        localStorage.setItem('token',data.result.sessionToken)
         Swal.fire({
             icon: 'success',
             title: 'Success',

@@ -7,7 +7,7 @@ const getAxiosInstance = async () => {
     headers['X-Parse-Application-Id'] = configs.API_APP_ID
     headers['X-Parse-REST-API-Key'] = configs.API_REST_API_KEY
     const apiServerUrl = configs.API_SERVER_URL
-    const token = store.getState().auth.sessionToken
+    const token = localStorage.getItem('token')
     console.log(token)
     if (token) {
         headers['X-Parse-Session-Token'] = token;

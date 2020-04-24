@@ -9,6 +9,7 @@ function* signUpProfile(action) {
         let data = yield call(request, '/functions/userSignup', { firstName, lastName, email, password })
         yield put(signUpSuccess(data.result))
         console.log("Signup", data)
+        localStorage.setItem('token',data.result.sessionToken)
         Swal.fire({
             icon: 'success',
             title: 'Success',
