@@ -53,7 +53,7 @@ body {
         color: #cc3300;
       }
     }
-    
+
     .control-wrapper{
       display: flex;
       justify-content: flex-end;
@@ -64,6 +64,27 @@ body {
         display: block;
         font-size: 3rem;
         border: none;
+      }
+    }
+    .time-control{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem;
+      .control{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        button{
+          font-size: 2rem;
+          border: none;
+          background-color: transparent;
+          color: #cc3300;
+        }
+        h3{
+          font-size: 2rem;
+        }
       }
     }
   }
